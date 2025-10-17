@@ -23,8 +23,6 @@ if image_count == 0:
     all_files = list(data_dir.glob('*/*'))
     print(f"Found files (first 5): {[str(f) for f in all_files[:5]]}")
 
-roses = list(data_dir.glob('roses/*')) 
-PIL.Image.open(str(roses[0]))
 
 train_ds = tf.keras.utils.image_dataset_from_directory( 
 	data_dir, 
