@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np 
 import os 
 import PIL 
+import json
 import tensorflow as tf 
 from tensorflow import keras 
 from tensorflow.keras import layers 
@@ -53,6 +54,7 @@ for images, labels in train_ds.take(1):
 		plt.axis("off")
 
 num_classes = len(class_names) 
+
 model = Sequential([ 
 	layers.Rescaling(1./255, input_shape=(180,180, 3)), 
 	layers.Conv2D(16, 3, padding='same', activation='relu'), 
@@ -67,9 +69,10 @@ model = Sequential([
 ])
 
 model.compile(optimizer='adam', 
-			loss=tf.keras.losses.SparseCategoricalCrossentropy( 
-				from_logits=True), 
-			metrics=['accuracy']) 
+	loss=tf.keras.losses.SparseCategoricalCrossentropy( 
+	from_logits=True), 
+	metrics=['accuracy']) 
+
 model.summary()
 
 epochs=10
@@ -78,6 +81,13 @@ train_ds,
 validation_data=val_ds, 
 epochs=epochs 
 )
+
+model.save("image_classifier.keras")
+import json
+
+with open("class_names.json", "w") as f:
+    json.dump(class_names, f)
+
 
 acc = history.history['accuracy'] 
 val_acc = history.history['val_accuracy'] 
