@@ -8,12 +8,15 @@ from tensorflow import keras
 from tensorflow.keras import layers 
 from tensorflow.keras.models import Sequential
 
+DATASET_DIR = "flower_photos"  # same dataset as before
+MODEL_PATH = "image_classifier.keras"
+CLASS_NAMES_PATH = "class_names.json"
 
 import pathlib 
 dataset_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
-data_dir = tf.keras.utils.get_file('flower_photos', origin=dataset_url, untar=True)
+data_dir = tf.keras.utils.get_file(DATASET_DIR, origin=dataset_url, untar=True)
 data_dir = pathlib.Path(data_dir)
-data_dir = data_dir / "flower_photos"
+data_dir = data_dir / DATASET_DIR
 if not os.path.exists(data_dir):
     raise FileNotFoundError(f"Dataset directory not found at: {data_dir}")
 
@@ -82,10 +85,10 @@ validation_data=val_ds,
 epochs=epochs 
 )
 
-model.save("image_classifier.keras")
+model.save(MODEL_PATH)
 import json
 
-with open("class_names.json", "w") as f:
+with open(CLASS_NAMES_PATH, "w") as f:
     json.dump(class_names, f)
 
 
